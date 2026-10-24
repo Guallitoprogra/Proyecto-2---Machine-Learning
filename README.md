@@ -20,4 +20,22 @@ py -3.12 -m venv .venv
 - `src`: scripts de preparación, entrenamiento y evaluación.
 - `results`: tablas y gráficas de los experimentos.
 
-La descarga de datos y los scripts se agregarán en los siguientes avances.
+## Obtener los datos
+
+```powershell
+.\.venv\Scripts\python.exe src/descargar_datos.py
+```
+
+El comando descarga el Excel original en `data/raw`. También registra la fecha de obtención, la fuente y las huellas SHA-256 en `data/dataset_metadata.json`. Cada ejecución vuelve a descargar el archivo y actualiza ese registro. El Excel no se sube al repositorio; se obtiene con este comando.
+
+Si Python encuentra un problema con el certificado de la conexión, se puede descargar el ZIP desde el botón Download de UCI y ejecutar:
+
+```powershell
+.\.venv\Scripts\python.exe src/descargar_datos.py --zip "C:\ruta\dry+bean+dataset.zip"
+```
+
+Fuente: [Dry Bean, UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/602/dry), publicado en 2020. Contiene 13,611 registros, 16 medidas numéricas y la columna objetivo `Class`, con siete variedades.
+
+Licencia: [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/). Referencia: Dry Bean [Dataset]. (2020). UCI Machine Learning Repository. https://doi.org/10.24432/C50S4B.
+
+Trabajamos con las medidas ya extraídas de las semillas, sin modificar el archivo original. Los resultados se limitarán a las variedades del dataset.
