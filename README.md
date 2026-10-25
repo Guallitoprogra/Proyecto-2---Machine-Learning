@@ -64,3 +64,6 @@ Usa solamente `train.csv`. Las tablas y gráficas quedan en `results/exploracion
 
 - `distribucion_variedades`: cuántas semillas hay de cada variedad.
 - `revision_faltantes`: faltantes, infinitos, valores no positivos y rango de cada columna. También se comprueba que `ConvexArea` no sea menor que `Area` y que las proporciones no pasen de 1.
+- `tamanos_por_variedad` y `formas_por_variedad`: cajas de cada medida por variedad, ordenadas de menor a mayor área.
+- `valores_atipicos`: atípicos por columna con la regla de 1.5 veces el rango intercuartílico y la variedad a la que pertenecen la mayoría.
+- `correlaciones`: correlación entre las 16 medidas.
