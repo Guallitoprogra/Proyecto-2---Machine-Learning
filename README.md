@@ -69,3 +69,19 @@ Usa solamente `train.csv`. Las tablas y gráficas quedan en `results/exploracion
 - `correlaciones`: correlación entre las 16 medidas.
 
 Las conclusiones y las decisiones que salen de este análisis están en [docs/analisis_exploratorio.md](docs/analisis_exploratorio.md).
+
+## Árbol de decisión y random forest
+
+Los modelos se comparan con `src/validacion.py`: validación cruzada estratificada de 5 particiones, semilla 42 y F1 macro como métrica para elegir hiperparámetros. Todos usan las mismas particiones y solo `train.csv`.
+
+```powershell
+.\.venv\Scripts\python.exe src/entrenar_arbol.py
+```
+
+Cada modelo deja en `results/validacion`:
+
+- `<modelo>.json`: mejores hiperparámetros, F1 macro en validación y en entrenamiento.
+- `<modelo>_busqueda.csv`: todas las combinaciones probadas.
+- `<modelo>.joblib`: el modelo con los mejores hiperparámetros ajustado en todo el entrenamiento.
+
+Para el árbol se prueban criterio, profundidad máxima, mínimo de semillas por hoja y pesos por clase. No se escalan las variables porque los cortes del árbol no dependen de la escala.
