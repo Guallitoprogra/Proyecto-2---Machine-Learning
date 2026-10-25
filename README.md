@@ -85,3 +85,9 @@ Cada modelo deja en `results/validacion`:
 - `<modelo>.joblib`: el modelo con los mejores hiperparámetros ajustado en todo el entrenamiento.
 
 Para el árbol se prueban criterio, profundidad máxima, mínimo de semillas por hoja y pesos por clase. No se escalan las variables porque los cortes del árbol no dependen de la escala.
+
+```powershell
+.\.venv\Scripts\python.exe src/entrenar_random_forest.py
+```
+
+Para el random forest se usan 200 árboles y se prueban profundidad máxima, mínimo de semillas por hoja, proporción de variables en cada corte y pesos por clase. Puede tardar varios minutos.
