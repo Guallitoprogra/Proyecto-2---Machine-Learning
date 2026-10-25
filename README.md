@@ -67,3 +67,5 @@ Usa solamente `train.csv`. Las tablas y gráficas quedan en `results/exploracion
 - `tamanos_por_variedad` y `formas_por_variedad`: cajas de cada medida por variedad, ordenadas de menor a mayor área.
 - `valores_atipicos`: atípicos por columna con la regla de 1.5 veces el rango intercuartílico y la variedad a la que pertenecen la mayoría.
 - `correlaciones`: correlación entre las 16 medidas.
+
+Las conclusiones y las decisiones que salen de este análisis están en [docs/analisis_exploratorio.md](docs/analisis_exploratorio.md).
