@@ -70,6 +70,20 @@ Usa solamente `train.csv`. Las tablas y gráficas quedan en `results/exploracion
 
 Las conclusiones y las decisiones que salen de este análisis están en [docs/analisis_exploratorio.md](docs/analisis_exploratorio.md).
 
+## Preprocesamiento y baseline
+
+`src/preprocesamiento.py` construye un `Pipeline` con el escalador y el modelo. Para regresión logística y KNN, `StandardScaler` aprende las medias y desviaciones solo con el entrenamiento de cada partición. Se conservan las 16 medidas y los valores atípicos, según el análisis exploratorio. No se imputan valores porque no hay faltantes.
+
+Al ajustar hiperparámetros de estos pipelines, los nombres del modelo llevan el prefijo `modelo__`, por ejemplo `modelo__C` o `modelo__n_neighbors`.
+
+```powershell
+.\.venv\Scripts\python.exe src/entrenar_baseline.py
+```
+
+El baseline siempre predice la variedad más frecuente que encuentra al entrenar cada partición. No necesita escalado ni búsqueda de parámetros. Usa las mismas cinco particiones, F1 macro y accuracy que los otros modelos; sus resultados quedan en `results/validacion/baseline.json`, junto con la tabla y el modelo guardado. El test no se usa.
+
+Con el entrenamiento actual obtiene F1 macro de 0.0593 y accuracy de 0.2619. Aunque acierta el 26.19 % al predecir DERMASON, no reconoce las otras seis variedades; por eso su F1 macro es bajo.
+
 ## Árbol de decisión y random forest
 
 Los modelos se comparan con `src/validacion.py`: validación cruzada estratificada de 5 particiones, semilla 42 y F1 macro como métrica para elegir hiperparámetros. Todos usan las mismas particiones y solo `train.csv`.
