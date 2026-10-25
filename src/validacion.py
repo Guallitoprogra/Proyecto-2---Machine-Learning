@@ -46,6 +46,9 @@ def buscar_hiperparametros(name, model, grid, X, y):
         "f1_macro_desviacion": round(float(results["std_test_f1_macro"][best]), 4),
         "f1_macro_entrenamiento": round(float(results["mean_train_f1_macro"][best]), 4),
         "accuracy_validacion": round(float(results["mean_test_accuracy"][best]), 4),
+        "f1_macro_por_particion": [
+            round(float(results[f"split{i}_test_f1_macro"][best]), 4) for i in range(CV.n_splits)
+        ],
         "combinaciones_probadas": len(grid_table),
     }
     (RESULTS / f"{name}.json").write_text(

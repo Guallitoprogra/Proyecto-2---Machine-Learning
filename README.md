@@ -91,3 +91,13 @@ Para el árbol se prueban criterio, profundidad máxima, mínimo de semillas por
 ```
 
 Para el random forest se usan 200 árboles y se prueban profundidad máxima, mínimo de semillas por hoja, proporción de variables en cada corte y pesos por clase. Puede tardar varios minutos.
+
+## Comparación de modelos
+
+```powershell
+.\.venv\Scripts\python.exe src/comparar_modelos.py
+```
+
+Lee todos los `<modelo>.json` de `results/validacion` y genera `comparacion.csv`, `comparacion_por_particion.csv` y `comparacion.png`. Como todos los modelos usan las mismas cinco particiones, también indica en cuántas particiones el mejor modelo supera a cada uno de los demás.
+
+Para que un modelo aparezca en la comparación, su script debe entrenarse con `buscar_hiperparametros` de `src/validacion.py` usando uno de estos nombres: `baseline`, `regresion_logistica`, `knn`, `arbol` o `random_forest`. Si falta alguno, el script lo avisa.
