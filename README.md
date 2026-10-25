@@ -39,3 +39,17 @@ Fuente: [Dry Bean, UCI Machine Learning Repository](https://archive.ics.uci.edu/
 Licencia: [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/). Referencia: Dry Bean [Dataset]. (2020). UCI Machine Learning Repository. https://doi.org/10.24432/C50S4B.
 
 Trabajamos con las medidas ya extraídas de las semillas, sin modificar el archivo original. Los resultados se limitarán a las variedades del dataset.
+
+## Revisar y separar los datos
+
+```powershell
+.\.venv\Scripts\python.exe src/preparar_datos.py
+```
+
+El script revisa columnas, tipos, faltantes, valores infinitos y duplicados. Guarda el resumen en `data/preparacion.json`. Los nombres originales se conservan, incluidos `AspectRation` y `roundness`.
+
+Se eliminan las repeticiones exactas antes de separar los datos para evitar que una misma fila aparezca en entrenamiento y test. El Excel original permanece intacto. La separación reserva el 20 % para test, mantiene aproximadamente la proporción de cada variedad y usa la semilla 42.
+
+Los archivos `train.csv` y `test.csv` se generan en `data/processed`. Al leerlos con pandas, usar `index_col="fila_original"`: ese índice permite ubicar la semilla en el archivo original y no debe entrar como predictor.
+
+El análisis exploratorio, el preprocesamiento y la selección de modelos se harán con entrenamiento. El escalado se ajustará dentro de cada partición de validación. El test queda reservado para una única evaluación final.
