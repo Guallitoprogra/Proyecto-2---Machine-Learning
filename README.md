@@ -63,3 +63,4 @@ El análisis exploratorio, el preprocesamiento y la selección de modelos se har
 Usa solamente `train.csv`. Las tablas y gráficas quedan en `results/exploracion`.
 
 - `distribucion_variedades`: cuántas semillas hay de cada variedad.
+- `revision_faltantes`: faltantes, infinitos, valores no positivos y rango de cada columna. También se comprueba que `ConvexArea` no sea menor que `Area` y que las proporciones no pasen de 1.

@@ -6,11 +6,15 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "results" / "exploracion"
+# Medidas que por definición van de 0 a 1.
+RATIOS = ["Eccentricity", "Extent", "Solidity", "roundness",
+          "Compactness", "ShapeFactor3", "ShapeFactor4"]
 
 
 def cargar_train():
@@ -47,11 +51,33 @@ def distribucion_variedades(train):
     return table
 
 
+def revisar_faltantes(train):
+    predictors = train.drop(columns="Class")
+    table = pd.DataFrame({
+        "faltantes": train.isna().sum(),
+        "infinitos": np.isinf(predictors).sum().reindex(train.columns, fill_value=0),
+        "no_positivos": predictors.le(0).sum().reindex(train.columns, fill_value=0),
+        "minimo": predictors.min(),
+        "maximo": predictors.max(),
+    }).reindex(train.columns).round(4)
+    table.index.name = "columna"
+    table.to_csv(OUTPUT / "revision_faltantes.csv")
+
+    # Un área convexa menor que el área no tendría sentido físico.
+    inconsistent = int((train["ConvexArea"] < train["Area"]).sum())
+    outside = int(train[RATIOS].gt(1).sum().sum())
+    print(f"Faltantes: {int(table['faltantes'].sum())}. Infinitos: {int(table['infinitos'].sum())}. "
+          f"Valores no positivos: {int(table['no_positivos'].sum())}.")
+    print(f"Filas con ConvexArea < Area: {inconsistent}. Proporciones mayores que 1: {outside}.")
+    return table
+
+
 def main():
     OUTPUT.mkdir(parents=True, exist_ok=True)
     train = cargar_train()
     print(f"Entrenamiento: {len(train):,} filas y {train.shape[1] - 1} predictores.")
     distribucion_variedades(train)
+    revisar_faltantes(train)
 
 
 if __name__ == "__main__":
