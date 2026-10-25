@@ -53,3 +53,13 @@ Se eliminan las repeticiones exactas antes de separar los datos para evitar que 
 Los archivos `train.csv` y `test.csv` se generan en `data/processed`. Al leerlos con pandas, usar `index_col="fila_original"`: ese índice permite ubicar la semilla en el archivo original y no debe entrar como predictor.
 
 El análisis exploratorio, el preprocesamiento y la selección de modelos se harán con entrenamiento. El escalado se ajustará dentro de cada partición de validación. El test queda reservado para una única evaluación final.
+
+## Análisis exploratorio
+
+```powershell
+.\.venv\Scripts\python.exe src/explorar_datos.py
+```
+
+Usa solamente `train.csv`. Las tablas y gráficas quedan en `results/exploracion`.
+
+- `distribucion_variedades`: cuántas semillas hay de cada variedad.
