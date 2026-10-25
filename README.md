@@ -101,3 +101,11 @@ Para el random forest se usan 200 árboles y se prueban profundidad máxima, mí
 Lee todos los `<modelo>.json` de `results/validacion` y genera `comparacion.csv`, `comparacion_por_particion.csv` y `comparacion.png`. Como todos los modelos usan las mismas cinco particiones, también indica en cuántas particiones el mejor modelo supera a cada uno de los demás.
 
 Para que un modelo aparezca en la comparación, su script debe entrenarse con `buscar_hiperparametros` de `src/validacion.py` usando uno de estos nombres: `baseline`, `regresion_logistica`, `knn`, `arbol` o `random_forest`. Si falta alguno, el script lo avisa.
+
+## Sobreajuste y selección final
+
+```powershell
+.\.venv\Scripts\python.exe src/analizar_sobreajuste.py
+```
+
+Compara el F1 macro de entrenamiento y de validación de cada modelo (`sobreajuste.csv`), dibuja cómo cambia esa brecha con la profundidad del árbol y del random forest (`*_profundidad.png`) y guarda el modelo elegido en `seleccion.json`. La regla de selección y el análisis están en [docs/seleccion_modelo.md](docs/seleccion_modelo.md).
