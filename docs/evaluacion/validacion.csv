@@ -1,0 +1,6 @@
+modelo,f1_macro_validacion,f1_macro_desviacion,accuracy_validacion,f1_macro_entrenamiento,mejores_parametros
+baseline,0.0593,0.0,0.2619,0.0593,{}
+regresion_logistica,0.9375,0.0044,0.9257,0.9386,"{'modelo__C': 10.0, 'modelo__class_weight': None}"
+knn,0.9386,0.004,0.9272,1.0,"{'modelo__n_neighbors': 25, 'modelo__p': 2, 'modelo__weights': 'distance'}"
+arbol,0.9238,0.003,0.912,0.9589,"{'class_weight': None, 'criterion': 'entropy', 'max_depth': 10, 'min_samples_leaf': 5}"
+random_forest,0.9365,0.0036,0.9254,0.9744,"{'class_weight': None, 'max_depth': None, 'max_features': 0.5, 'min_samples_leaf': 4}"

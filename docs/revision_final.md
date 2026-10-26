@@ -1,6 +1,6 @@
 # Revisión final
 
-Lista de lo que revisamos antes de entregar. Cada punto se comprobó corriendo los scripts desde un clon limpio del repositorio.
+Revisión técnica del proyecto. Las métricas finales pueden comprobarse desde las predicciones guardadas con `src/verificar_evaluacion.py`. La revisión manual de los integrantes se registra por separado.
 
 ## Datos
 
@@ -43,9 +43,11 @@ Lista de lo que revisamos antes de entregar. Cada punto se comprobó corriendo l
 
 ## Consistencia
 
-- [x] Los números del informe, la presentación y los documentos coinciden con lo que generan los scripts.
-- [x] Los scripts corren en orden desde un clon limpio sin errores.
-- [x] Commits repartidos entre los dos integrantes según el plan de trabajo.
+- [x] Las métricas del informe coinciden con las predicciones guardadas y su matriz de confusión.
+- [x] Ejecución en orden desde una carpeta limpia con el ZIP oficial: mismas particiones, cinco búsquedas y misma selección; la evaluación guardada se reutilizó sin nuevas predicciones de test.
+- [x] Pruebas de bloqueo de selección incompleta y reutilización de resultados (`tests/test_evaluacion.py`).
+- [ ] Revisar la presentación con los resultados definitivos: 215 errores, F1 macro 0.9310 y caída de 0.0065 respecto a validación.
+- [ ] Ambos integrantes revisaron manualmente el código y registraron qué comprobaron en la sección de uso de herramientas del informe.
 
 ## Orden para reproducir todo
 
@@ -60,6 +62,10 @@ Lista de lo que revisamos antes de entregar. Cada punto se comprobó corriendo l
 .\.venv\Scripts\python.exe src/entrenar_random_forest.py
 .\.venv\Scripts\python.exe src/comparar_modelos.py
 .\.venv\Scripts\python.exe src/analizar_sobreajuste.py
+.\.venv\Scripts\python.exe src/evaluar_test.py
+.\.venv\Scripts\python.exe src/verificar_evaluacion.py
 ```
 
-Después corre la evaluación final en test de Rodrigo.
+Si la descarga encuentra el problema de certificado documentado en el README, usar el ZIP oficial con `descargar_datos.py --zip "C:\ruta\dry+bean+dataset.zip"`. No se desactiva la verificación HTTPS.
+
+La evaluación guardada se reutiliza al repetir el comando para no volver a predecir el test. Una reproducción independiente del experimento fijo se puede guardar fuera de la entrega con `evaluar_test.py --reproducir`.

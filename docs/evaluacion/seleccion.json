@@ -1,0 +1,16 @@
+{
+  "modelo": "regresion_logistica",
+  "mejores_parametros": {
+    "modelo__C": 10.0,
+    "modelo__class_weight": null
+  },
+  "f1_macro_validacion": 0.9375,
+  "mejor_f1_macro": "knn",
+  "empatados_dentro_de_una_desviacion": [
+    "regresion_logistica",
+    "knn",
+    "random_forest"
+  ],
+  "regla": "Entre los modelos a menos de una desviación del mejor F1 macro, se elige el de menor brecha entre entrenamiento y validación.",
+  "modelos_sin_resultados": []
+}

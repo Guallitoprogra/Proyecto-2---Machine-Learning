@@ -1,0 +1,19 @@
+{
+  "modelo": "regresion_logistica",
+  "parametros": {
+    "modelo__C": 10.0,
+    "modelo__class_weight": null
+  },
+  "fecha": "2026-10-25T21:42:23-06:00",
+  "f1_macro": 0.9309738008514616,
+  "accuracy": 0.9206349206349206,
+  "filas_test": 2709,
+  "errores": 215,
+  "f1_macro_validacion": 0.9375,
+  "train_sha256": "89cd2d772f248a7d616a8fbc07d512d7c9e0d98dce7d79e6a9600ce9d956b286",
+  "test_sha256": "4fa6312888b7b6741b0b7e57cfb5f0412293f730374092f5d3438797647547f0",
+  "modelo_sha256": "5fff53ce41e9f98aa0f87fb5346c43d60ebd4e43f5ac86daccd0533647624ad2",
+  "seleccion_sha256": "7cc4d6c63f57efa7244ddbbecb47e65abe2535b9550c4bc40b6d6e1ad15313ff",
+  "sklearn_version": "1.9.1",
+  "nota": "Modelo fijado por validación. El test no se usa para ajustar ni elegir modelos."
+}

@@ -60,6 +60,8 @@ Para la regresión logística y KNN escalamos las medidas con `StandardScaler`. 
 
 ### Validación
 
+No contamos con costos económicos por tipo de error. Damos el mismo peso a cada variedad para evitar que un buen resultado en las clases frecuentes oculte fallos en las minoritarias. F1 macro combina precisión y recall con ese criterio; accuracy queda como complemento.
+
 Todos los modelos se evaluaron con la misma validación cruzada estratificada de 5 particiones (semilla 42). Así podemos comparar los resultados partición por partición y no solo el promedio. Los hiperparámetros se eligieron por F1 macro. También guardamos la accuracy y el F1 macro de entrenamiento para revisar el sobreajuste.
 
 ### Regla de selección
@@ -69,6 +71,8 @@ Definimos la regla antes de ver el test:
 1. Tomar el modelo con mayor F1 macro en validación.
 2. Considerar empatados los modelos que queden a menos de una desviación estándar de ese valor.
 3. Entre los empatados, elegir el de menor diferencia entre entrenamiento y validación y, si sigue habiendo empate, el más simple.
+
+Este es un criterio práctico de selección; estar dentro de una desviación no demuestra equivalencia estadística entre modelos.
 
 ## 5. Resultados
 
@@ -103,7 +107,7 @@ El modelo elegido se ajustó con todo el entrenamiento y se evaluó una sola vez
 | Regresión logística (test) | 0.931 | 0.921 |
 | Regresión logística (validación) | 0.938 | 0.926 |
 
-La caída respecto a validación es pequeña (0.006 en F1 macro), así que la estimación de la validación cruzada fue confiable.
+La caída respecto a validación es de 0.0065 en F1 macro. El resultado es cercano al de validación, aunque una sola partición no permite asegurar el mismo desempeño con datos de otro origen.
 
 | Variedad | Precisión | Recall | F1 | Semillas |
 |---|---:|---:|---:|---:|
@@ -112,12 +116,16 @@ La caída respecto a validación es pequeña (0.006 en F1 macro), así que la es
 | SEKER | 0.937 | 0.948 | 0.942 | 406 |
 | CALI | 0.906 | 0.942 | 0.923 | 326 |
 | DERMASON | 0.925 | 0.910 | 0.917 | 709 |
-| BARBUNYA | 0.929 | 0.894 | 0.912 | 265 |
-| SIRA | 0.862 | 0.888 | 0.875 | 527 |
+| BARBUNYA | 0.929 | 0.891 | 0.909 | 265 |
+| SIRA | 0.860 | 0.888 | 0.874 | 527 |
 
 BOMBAY es casi perfecta, como esperábamos por su tamaño. SIRA es la más difícil.
 
-De los 214 errores en test, 95 (44 %) son confusiones entre DERMASON y SIRA: 53 DERMASON clasificadas como SIRA y 42 en el sentido contrario. Les siguen BARBUNYA y CALI, con 27 errores entre las dos. Son justamente los pares que se traslapaban en el análisis exploratorio, así que los errores tienen una explicación en los datos y no parecen un fallo del modelo.
+De los 215 errores en test, 95 (44.19 %) son confusiones entre DERMASON y SIRA: 53 DERMASON clasificadas como SIRA y 42 en el sentido contrario. Les siguen BARBUNYA y CALI, con 27 errores entre las dos. Estos pares también se traslapaban en el análisis exploratorio; esa similitud ofrece una posible explicación de los errores, sin descartar limitaciones del modelo o de los datos.
+
+![Matriz de confusión del test](evaluacion/matriz_confusion.png)
+
+La evaluación reproducible y las predicciones están en [evaluacion/metricas.json](evaluacion/metricas.json). El [análisis de errores](analisis_errores.md) detalla cinco casos concretos y sus posibles causas. Por ejemplo, la fila 7436 es SIRA, pero su área y forma se parecen a DERMASON; la fila 3872 es CALI y se predice como SEKER con probabilidad 0.9953. Una probabilidad alta no garantiza un acierto.
 
 ## 6. Limitaciones
 
@@ -130,4 +138,10 @@ De los 214 errores en test, 95 (44 %) son confusiones entre DERMASON y SIRA: 53 
 
 ## 7. Conclusión
 
-Con solo 16 medidas de tamaño y forma se pueden distinguir las siete variedades con un F1 macro de 0.93 en datos que el modelo no vio. Un modelo lineal y simple, la regresión logística, rinde igual que KNN y el random forest. Casi todos los errores se concentran en dos pares de variedades que también se parecen en las medidas.
+Con solo 16 medidas de tamaño y forma se pueden distinguir las siete variedades con un F1 macro de 0.93 en datos que el modelo no vio. Un modelo lineal y simple, la regresión logística, obtiene un resultado cercano a KNN y al random forest en validación. El 56.74 % de los errores se concentra en dos pares de variedades que también se parecen en las medidas.
+
+## 8. Uso de herramientas
+
+Se utilizó ChatGPT/Codex como apoyo para organizar el trabajo, desarrollar y comentar scripts, redactar documentación y ejecutar comprobaciones. Se contrastaron las métricas con las predicciones guardadas, se verificó la separación de los datos y se comprobó el escalado dentro de la validación. Estas son comprobaciones ejecutadas con código, no una declaración de revisión manual por los integrantes.
+
+Antes de entregar, Rodrigo y Denis deben registrar qué partes verificaron manualmente y estar preparados para explicar cualquier parte del código. Esa revisión personal todavía debe ser confirmada por ambos.

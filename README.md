@@ -137,12 +137,35 @@ Para que un modelo aparezca en la comparación, su script debe entrenarse con `b
 
 Compara el F1 macro de entrenamiento y de validación de cada modelo (`sobreajuste.csv`), dibuja cómo cambia esa brecha con la profundidad del árbol y del random forest (`*_profundidad.png`) y guarda el modelo elegido en `seleccion.json`. La regla de selección y el análisis están en [docs/seleccion_modelo.md](docs/seleccion_modelo.md).
 
+## Evaluación final y errores
+
+Después de ejecutar los cinco modelos, la comparación y la selección:
+
+```powershell
+.\.venv\Scripts\python.exe src/evaluar_test.py
+.\.venv\Scripts\python.exe src/verificar_evaluacion.py
+```
+
+`evaluar_test.py` exige resultados de los cinco modelos y comprueba que la selección y los parámetros coincidan. Evalúa únicamente el modelo seleccionado, conserva la matriz, las métricas por variedad, todas las predicciones y los errores en `docs/evaluacion`. También registra las huellas de los datos y del modelo.
+
+La evaluación de la entrega ya está guardada. Si existe `metricas.json`, el comando muestra ese resultado y no vuelve a predecir. `verificar_evaluacion.py` recalcula las métricas desde las predicciones guardadas sin consultar de nuevo el test.
+
+Para reproducir de forma independiente el experimento con la selección fija, se puede ejecutar `src/evaluar_test.py --reproducir`: escribe en `results/evaluacion_reproducida`, sin cambiar los resultados de la entrega. Esa reproducción no se debe usar para volver a ajustar modelos.
+
+Resultado final: regresión logística con `C=10`, F1 macro **0.9310**, accuracy **0.9206** y **215 errores de 2,709 semillas**. Los casos concretos se explican en [docs/analisis_errores.md](docs/analisis_errores.md).
+
+Las comprobaciones que impiden evaluar con una selección incompleta y reutilizan resultados ya guardados se ejecutan con:
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests
+```
+
 ## Informe
 
 El informe del proyecto está en [docs/informe.md](docs/informe.md). Las figuras que usa se copiaron de `results` a `docs/figuras` para que se puedan ver en GitHub sin correr los scripts.
 
 ## Presentación
 
-La presentación está en `docs/presentacion.pptx`. Tiene 11 diapositivas, y cada una incluye notas para quien expone. Los números son los mismos del informe.
+La presentación está en `docs/presentacion.pptx`. Tiene 11 diapositivas, y cada una incluye notas para quien expone. Antes de entregar, revisar sus cifras con la evaluación definitiva del informe, especialmente los 215 errores y la caída de F1 macro de 0.0065.
 
 La lista de verificación final y el orden para correr todos los scripts están en [docs/revision_final.md](docs/revision_final.md).
