@@ -159,7 +159,13 @@ Las comprobaciones que impiden evaluar con una selección incompleta y reutiliza
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests
 ```
+## Ver todos los resultados
 
+```powershell
+.\.venv\Scripts\python.exe src/ver_resultados.py
+```
+
+Junta en una sola página todas las gráficas y tablas de `results/exploracion`, `results/validacion` y `docs/evaluacion`, y la abre en el navegador. La página queda en `results/resultados.html`. Las tablas largas muestran solo las primeras 30 filas.
 ## Informe
 
 El informe del proyecto está en [docs/informe.md](docs/informe.md). Las figuras que usa se copiaron de `results` a `docs/figuras` para que se puedan ver en GitHub sin correr los scripts.
