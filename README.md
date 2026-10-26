@@ -84,6 +84,19 @@ El baseline siempre predice la variedad más frecuente que encuentra al entrenar
 
 Con el entrenamiento actual obtiene F1 macro de 0.0593 y accuracy de 0.2619. Aunque acierta el 26.19 % al predecir DERMASON, no reconoce las otras seis variedades; por eso su F1 macro es bajo.
 
+## Regresión logística y KNN
+
+```powershell
+.\.venv\Scripts\python.exe src/entrenar_regresion_logistica.py
+.\.venv\Scripts\python.exe src/entrenar_knn.py
+```
+
+Ambos usan el pipeline de escalado y las mismas cinco particiones estratificadas. Para regresión logística se prueban ocho combinaciones de regularización (`C`) y pesos por clase. Para KNN se prueban veinte combinaciones de número de vecinos, ponderación por distancia y distancia Manhattan o euclidiana. La selección usa F1 macro; también se guarda accuracy y F1 de entrenamiento para revisar sobreajuste.
+
+Los resultados, las búsquedas completas y los pipelines ajustados se guardan en `results/validacion`, con los nombres `regresion_logistica` y `knn`. Estos scripts no abren el test.
+
+Los resultados obtenidos y su interpretación están en [docs/regresion_y_knn.md](docs/regresion_y_knn.md).
+
 ## Árbol de decisión y random forest
 
 Los modelos se comparan con `src/validacion.py`: validación cruzada estratificada de 5 particiones, semilla 42 y F1 macro como métrica para elegir hiperparámetros. Todos usan las mismas particiones y solo `train.csv`.
