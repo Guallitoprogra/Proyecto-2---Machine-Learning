@@ -69,3 +69,65 @@ Definimos la regla antes de ver el test:
 1. Tomar el modelo con mayor F1 macro en validación.
 2. Considerar empatados los modelos que queden a menos de una desviación estándar de ese valor.
 3. Entre los empatados, elegir el de menor diferencia entre entrenamiento y validación y, si sigue habiendo empate, el más simple.
+
+## 5. Resultados
+
+### Validación cruzada
+
+![Comparación de modelos](figuras/comparacion.png)
+
+| Modelo | F1 macro validación | Desviación | Accuracy | F1 macro entrenamiento |
+|---|---:|---:|---:|---:|
+| Baseline mayoritario | 0.059 | 0.000 | 0.262 | 0.059 |
+| Regresión logística | 0.938 | 0.004 | 0.926 | 0.939 |
+| KNN | 0.939 | 0.004 | 0.927 | 1.000 |
+| Árbol de decisión | 0.924 | 0.003 | 0.912 | 0.959 |
+| Random forest | 0.937 | 0.004 | 0.925 | 0.974 |
+
+El baseline acierta el 26 % de las veces porque siempre dice DERMASON, pero su F1 macro es de apenas 0.059 porque no reconoce las otras seis variedades. Los otros cuatro modelos lo superan por mucho.
+
+KNN tuvo el mejor promedio, pero la regresión logística y el random forest quedaron a menos de una desviación estándar. KNN solo le gana a la regresión logística en 3 de las 5 particiones y al random forest en 2 de 5. El árbol sí queda claramente atrás: los otros tres modelos lo superan en las 5 particiones.
+
+![Árbol: entrenamiento contra validación](figuras/arbol_profundidad.png)
+
+En el árbol, a partir de profundidad 8 la validación deja de mejorar y solo sube el entrenamiento. El random forest tiene una brecha parecida (0.038), aunque ahí preocupa menos porque al promediar muchos árboles la validación sigue alta. El F1 de 1.00 de KNN en entrenamiento no indica un sobreajuste fuerte: con pesos por distancia, cada semilla se encuentra a sí misma a distancia cero. Aun así, la regla lo cuenta como brecha.
+
+Aplicando la regla, los empatados son KNN, la regresión logística y el random forest. **Elegimos la regresión logística** (`C=10`, sin pesos por clase), que tiene una diferencia de solo 0.001 entre entrenamiento y validación. Aunque no tomáramos en cuenta la brecha artificial de KNN, la regresión logística seguiría siendo la opción más simple dentro del empate.
+
+### Evaluación final en test
+
+El modelo elegido se ajustó con todo el entrenamiento y se evaluó una sola vez con las 2,709 semillas del test.
+
+| | F1 macro | Accuracy |
+|---|---:|---:|
+| Regresión logística (test) | 0.931 | 0.921 |
+| Regresión logística (validación) | 0.938 | 0.926 |
+
+La caída respecto a validación es pequeña (0.006 en F1 macro), así que la estimación de la validación cruzada fue confiable.
+
+| Variedad | Precisión | Recall | F1 | Semillas |
+|---|---:|---:|---:|---:|
+| BOMBAY | 1.000 | 0.990 | 0.995 | 104 |
+| HOROZ | 0.970 | 0.941 | 0.955 | 372 |
+| SEKER | 0.937 | 0.948 | 0.942 | 406 |
+| CALI | 0.906 | 0.942 | 0.923 | 326 |
+| DERMASON | 0.925 | 0.910 | 0.917 | 709 |
+| BARBUNYA | 0.929 | 0.894 | 0.912 | 265 |
+| SIRA | 0.862 | 0.888 | 0.875 | 527 |
+
+BOMBAY es casi perfecta, como esperábamos por su tamaño. SIRA es la más difícil.
+
+De los 214 errores en test, 95 (44 %) son confusiones entre DERMASON y SIRA: 53 DERMASON clasificadas como SIRA y 42 en el sentido contrario. Les siguen BARBUNYA y CALI, con 27 errores entre las dos. Son justamente los pares que se traslapaban en el análisis exploratorio, así que los errores tienen una explicación en los datos y no parecen un fallo del modelo.
+
+## 6. Limitaciones
+
+- **Un solo origen.** Todas las semillas vienen de un mismo estudio, con las mismas condiciones de cámara y de iluminación. No sabemos cómo funcionaría el modelo con fotos de otro lugar o tomadas con otro equipo.
+- **Solo siete variedades.** El modelo siempre responde con una de las siete. Una semilla de otra variedad se clasificaría mal sin ningún aviso.
+- **Medidas ya calculadas.** Dependemos de cómo se segmentaron las imágenes originales. Un error en esa etapa pasa directo al modelo y no lo podemos revisar.
+- **Empate entre modelos.** Tres modelos quedaron dentro de la variación entre particiones. La regresión logística ganó por la regla que definimos, no porque fuera claramente superior. Con otra semilla podría ganar KNN o el random forest.
+- **DERMASON y SIRA.** Con estas 16 medidas una parte de estas dos variedades no se puede separar. Probablemente haría falta información que no está en el dataset, como color o textura.
+- **Búsqueda limitada.** Para que el random forest corriera en un tiempo razonable solo probamos 16 combinaciones. Una búsqueda más amplia podría mejorarlo un poco, aunque las diferencias que vimos entre combinaciones fueron muy pequeñas.
+
+## 7. Conclusión
+
+Con solo 16 medidas de tamaño y forma se pueden distinguir las siete variedades con un F1 macro de 0.93 en datos que el modelo no vio. Un modelo lineal y simple, la regresión logística, rinde igual que KNN y el random forest. Casi todos los errores se concentran en dos pares de variedades que también se parecen en las medidas.
