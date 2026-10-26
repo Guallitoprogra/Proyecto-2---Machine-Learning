@@ -140,3 +140,7 @@ Compara el F1 macro de entrenamiento y de validación de cada modelo (`sobreajus
 ## Informe
 
 El informe del proyecto está en [docs/informe.md](docs/informe.md). Las figuras que usa se copiaron de `results` a `docs/figuras` para que se puedan ver en GitHub sin correr los scripts.
+
+## Presentación
+
+La presentación está en `docs/presentacion.pptx`. Tiene 11 diapositivas, y cada una incluye notas para quien expone. Los números son los mismos del informe.
