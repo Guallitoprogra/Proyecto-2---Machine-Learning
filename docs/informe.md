@@ -143,5 +143,3 @@ Con solo 16 medidas de tamaño y forma se pueden distinguir las siete variedades
 ## 8. Uso de herramientas
 
 Se utilizó ChatGPT/Codex como apoyo para organizar el trabajo, desarrollar y comentar scripts, redactar documentación y ejecutar comprobaciones. Se contrastaron las métricas con las predicciones guardadas, se verificó la separación de los datos y se comprobó el escalado dentro de la validación. Estas son comprobaciones ejecutadas con código, no una declaración de revisión manual por los integrantes.
-
-Antes de entregar, Rodrigo y Denis deben registrar qué partes verificaron manualmente y estar preparados para explicar cualquier parte del código. Esa revisión personal todavía debe ser confirmada por ambos.
