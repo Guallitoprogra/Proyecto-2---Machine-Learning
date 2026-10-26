@@ -144,3 +144,5 @@ El informe del proyecto está en [docs/informe.md](docs/informe.md). Las figuras
 ## Presentación
 
 La presentación está en `docs/presentacion.pptx`. Tiene 11 diapositivas, y cada una incluye notas para quien expone. Los números son los mismos del informe.
+
+La lista de verificación final y el orden para correr todos los scripts están en [docs/revision_final.md](docs/revision_final.md).

@@ -32,12 +32,13 @@ Los pesos por clase (`balanced`) no mejoraron ninguno de los dos modelos. Parece
 
 | Modelo | F1 validación | Desviación | Accuracy | F1 entrenamiento |
 |---|---:|---:|---:|---:|
+| Baseline | 0.0593 | 0.0000 | 0.2619 | 0.0593 |
+| Regresión logística | 0.9375 | 0.0045 | 0.9258 | 0.9385 |
+| KNN | 0.9386 | 0.0040 | 0.9272 | 1.0000 |
 | Árbol | 0.9238 | 0.0030 | 0.9120 | 0.9589 |
 | Random forest | 0.9365 | 0.0036 | 0.9254 | 0.9744 |
 
-El random forest supera al árbol en las 5 particiones, así que la diferencia no es casualidad de una sola partición.
-
-La tabla completa con el baseline, la regresión logística y KNN se genera al correr `src/comparar_modelos.py` cuando estén los cinco resultados en `results/validacion`.
+El random forest supera al árbol en las 5 particiones, así que la diferencia no es casualidad de una sola partición. Lo mismo pasa con la regresión logística y KNN frente al árbol.
 
 ## Regla de selección
 
@@ -46,3 +47,9 @@ La tabla completa con el baseline, la regresión logística y KNN se genera al c
 3. Entre los empatados se elige el de menor brecha entre entrenamiento y validación. Si la brecha también es igual, se prefiere el modelo más simple.
 
 `src/analizar_sobreajuste.py` aplica esta regla y guarda el resultado en `results/validacion/seleccion.json`. Ese archivo también indica qué modelos faltan, para que no se tome como definitiva una selección hecha sin los cinco. El modelo elegido es el único que se evalúa en el test.
+
+## Resultado de la selección
+
+KNN tiene el mejor promedio (0.9386 ± 0.0040), así que se consideran empatados todos los modelos con 0.9346 o más: KNN, la regresión logística y el random forest. Entre ellos, la regresión logística tiene la menor brecha (0.0010), por lo que se elige **la regresión logística con `C=10` y sin pesos por clase**.
+
+La brecha de KNN (0.061) está inflada: con pesos por distancia, cada semilla de entrenamiento se encuentra a sí misma, así que su F1 de entrenamiento siempre sale 1. Aunque no tomáramos en cuenta ese valor, la regresión logística seguiría siendo la opción más simple dentro del empate.
