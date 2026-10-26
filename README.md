@@ -136,3 +136,7 @@ Para que un modelo aparezca en la comparación, su script debe entrenarse con `b
 ```
 
 Compara el F1 macro de entrenamiento y de validación de cada modelo (`sobreajuste.csv`), dibuja cómo cambia esa brecha con la profundidad del árbol y del random forest (`*_profundidad.png`) y guarda el modelo elegido en `seleccion.json`. La regla de selección y el análisis están en [docs/seleccion_modelo.md](docs/seleccion_modelo.md).
+
+## Informe
+
+El informe del proyecto está en [docs/informe.md](docs/informe.md). Las figuras que usa se copiaron de `results` a `docs/figuras` para que se puedan ver en GitHub sin correr los scripts.
